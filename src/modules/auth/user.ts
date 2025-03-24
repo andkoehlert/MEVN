@@ -1,12 +1,12 @@
 import {ref} from 'vue';
 import type {User} from '../../interfaces/interfaces'
 import { useRouter } from 'vue-router';
-
+import {state} from '../globalStates/state'
 
 export const useUsers = () => {
   
   const token = ref<string | null>(null);
-  const isLoggedIn = ref<boolean>(false);
+ /* const isLoggedIn = ref<boolean>(false); */
   const error = ref<string | null>(null);
   const user = ref<User | null>(null);
 
@@ -38,7 +38,7 @@ try {
   token.value = authResponse.data.token
   user.value = authResponse.data.user
 
-  isLoggedIn.value = true
+  state.isLoggedIn = true
   localStorage.setItem('lsToken', authToken)
   localStorage.setItem('userIDToken', userId)
   console.log('user is logged in:', authResponse)
@@ -47,7 +47,7 @@ try {
 
 catch (err) {
   error.value = (err as Error).message || 'An error occured'
-  isLoggedIn.value = false
+  state.isLoggedIn = false
 }
 }
 
@@ -55,7 +55,7 @@ catch (err) {
 const logout = () => {
   token.value = null
   user.value = null
-  isLoggedIn.value = false
+  state.isLoggedIn = false
   localStorage.removeItem('lsToken')
   console.log("user is logged out")
 }
@@ -83,7 +83,7 @@ const registerUser = async (name: string, email:string, password:string): Promis
     const authResponse = await response.json()
     token.value = authResponse.data.token
     user.value = authResponse.data.user
-    isLoggedIn.value = true
+    state.isLoggedIn = true
   
     localStorage.setItem('lsToken', authResponse.data.token)
     localStorage.setItem('userIDToken', authResponse.data.userID)
@@ -94,13 +94,13 @@ const registerUser = async (name: string, email:string, password:string): Promis
   
   catch (err) {
     error.value = (err as Error).message || 'An error occured'
-    isLoggedIn.value = false
+    state.isLoggedIn = false
   }
   }
 
 return {
   token,
-  isLoggedIn,
+  isLoggedIn: state.isLoggedIn,
   error,
   user,
   name,
