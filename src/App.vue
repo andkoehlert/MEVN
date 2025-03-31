@@ -16,6 +16,8 @@
 
         <!-- toggle cart button -->
         <button class="mr-4" @click="toggleCart">Cart</button>
+        <RouterLink v-if="isLoggedIn" to="/orders" class="mr-4">Orders</RouterLink>
+
 
         <!-- Routerlink to orders -->
 

@@ -34,3 +34,14 @@ export type CartItem = {
   quantity: number,
   imageURL: string
 }
+
+
+export type OrderItems = {
+  _id: string,
+  orderDate: string, 
+  total: Number,
+  userName: string,
+  orderStatus: string,
+  orderNumber: number,
+  orderLine: Array<{ product: Product, quantity: number }>
+}
